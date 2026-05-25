@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Muskan Ejaz — CS Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#040810;
+  --bg2:#070d1a;
+  --bg3:#0c1526;
+  --bg4:#101d33;
+  --blue:#3b82f6;
+  --blue2:#60a5fa;
+  --blue3:#93c5fd;
+  --cyan:#22d3ee;
+  --purple:#a78bfa;
+  --border:rgba(59,130,246,0.15);
+  --border2:rgba(59,130,246,0.3);
+  --border3:rgba(59,130,246,0.5);
+  --text:#e2e8f0;
+  --muted:#64748b;
+  --muted2:#94a3b8;
+  --mono:'Space Mono',monospace;
+  --display:'Syne',sans-serif;
+  --body:'Inter',sans-serif;
+  --glow:0 0 20px rgba(59,130,246,0.3);
+  --glow2:0 0 40px rgba(59,130,246,0.15);
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--body);
+  font-size:15px;
+  line-height:1.7;
+  overflow-x:hidden;
+  min-height:100vh;
+}
+
+/* ── CANVAS BACKGROUND ── */
+#bg-canvas{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  z-index:0;pointer-events:none;
+  opacity:0.6;
+}
+
+/* ── CIRCUIT OVERLAY ── */
+.circuit-overlay{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(59,130,246,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(59,130,246,0.04) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+.circuit-overlay::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(59,130,246,0.08) 0%,transparent 70%);
+}
+
+/* ── LAYOUT ── */
+.wrap{position:relative;z-index:2;max-width:900px;margin:0 auto;padding:0 28px}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:100;
+  border-bottom:1px solid var(--border);
+  background:rgba(4,8,16,0.8);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+}
+nav .wrap{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:16px;padding-bottom:16px;
+}
+.nav-logo{
+  font-family:var(--mono);font-size:13px;color:var(--blue2);
+  display:flex;align-items:center;gap:8px;
+}
+.nav-logo::before{
+  content:'>';color:var(--cyan);
+  animation:blink-caret 1.2s step-end infinite;
+}
+@keyframes blink-caret{0%,100%{opacity:1}50%{opacity:0}}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{
+  font-size:12px;color:var(--muted2);text-decoration:none;
+  font-family:var(--mono);letter-spacing:0.05em;
+  transition:color 0.2s;
+  position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;left:0;bottom:-2px;
+  width:0;height:1px;background:var(--blue2);
+  transition:width 0.25s;
+}
+.nav-links a:hover{color:var(--blue2)}
+.nav-links a:hover::after{width:100%}
+
+/* ── HERO ── */
+.hero{padding:100px 0 80px;position:relative}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:11px;color:var(--cyan);
+  border:1px solid rgba(34,211,238,0.25);
+  padding:5px 14px;border-radius:2px;
+  margin-bottom:32px;
+  background:rgba(34,211,238,0.04);
+  text-transform:uppercase;letter-spacing:0.1em;
+}
+.hero-eyebrow .dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--cyan);
+  box-shadow:0 0 8px var(--cyan);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+
+h1{
+  font-family:var(--display);
+  font-size:clamp(44px,7.5vw,80px);
+  font-weight:800;
+  line-height:1.0;
+  letter-spacing:-0.03em;
+  margin-bottom:6px;
+}
+h1 .name-first{color:var(--text)}
+h1 .name-last{
+  color:var(--text);
+  display:block;
+}
+.hero-role{
+  font-family:var(--mono);font-size:14px;color:var(--blue3);
+  margin-bottom:28px;margin-top:18px;
+  display:flex;align-items:center;gap:10px;
+}
+.hero-role::before{content:'//';color:var(--muted)}
+.hero-desc{
+  max-width:520px;color:var(--muted2);font-size:16px;
+  line-height:1.75;margin-bottom:40px;
+  font-weight:300;
+}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:64px}
+
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:11px 24px;border-radius:4px;
+  font-size:12px;font-family:var(--mono);
+  text-decoration:none;cursor:pointer;border:none;
+  letter-spacing:0.05em;transition:all 0.25s;
+}
+.btn-primary{
+  background:var(--blue);color:#fff;
+  box-shadow:0 0 20px rgba(59,130,246,0.4);
+}
+.btn-primary:hover{
+  background:#2563eb;
+  box-shadow:0 0 32px rgba(59,130,246,0.6);
+  transform:translateY(-2px);
+}
+.btn-outline{
+  background:transparent;color:var(--blue2);
+  border:1px solid var(--border2);
+}
+.btn-outline:hover{
+  border-color:var(--border3);
+  background:rgba(59,130,246,0.08);
+  box-shadow:var(--glow);
+  transform:translateY(-2px);
+}
+
+.stats-row{
+  display:flex;gap:0;
+  border:1px solid var(--border);
+  border-radius:6px;
+  overflow:hidden;
+  background:var(--bg2);
+  max-width:560px;
+}
+.stat-box{
+  flex:1;padding:20px 24px;
+  border-right:1px solid var(--border);
+  position:relative;
+}
+.stat-box:last-child{border-right:none}
+.stat-box::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--blue),var(--cyan));
+  opacity:0;transition:opacity 0.3s;
+}
+.stat-box:hover::before{opacity:1}
+.stat-num{
+  font-family:var(--display);font-size:30px;font-weight:800;
+  color:var(--blue2);line-height:1;margin-bottom:4px;
+}
+.stat-label{font-family:var(--mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em}
+
+/* ── SECTION ── */
+section{padding:72px 0;border-top:1px solid var(--border)}
+.sec-header{margin-bottom:48px}
+.sec-num{
+  font-family:var(--mono);font-size:11px;color:var(--blue);
+  letter-spacing:0.15em;text-transform:uppercase;
+  margin-bottom:8px;display:flex;align-items:center;gap:10px;
+}
+.sec-num::after{content:'';flex:1;max-width:60px;height:1px;background:var(--border2)}
+.sec-title{
+  font-family:var(--display);font-size:32px;font-weight:800;
+  color:var(--text);letter-spacing:-0.02em;line-height:1.1;
+}
+
+/* ── SKILLS ── */
+.skills-wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.skill-block{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:6px;padding:22px;
+  transition:border-color 0.25s,transform 0.25s,box-shadow 0.25s;
+}
+.skill-block:hover{
+  border-color:var(--border2);
+  transform:translateY(-3px);
+  box-shadow:var(--glow2);
+}
+.skill-cat{
+  font-family:var(--mono);font-size:10px;
+  color:var(--blue3);letter-spacing:0.12em;text-transform:uppercase;
+  margin-bottom:14px;display:flex;align-items:center;gap:6px;
+}
+.skill-cat::before{content:'#';color:var(--cyan)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{
+  font-family:var(--mono);font-size:11px;
+  padding:3px 10px;border-radius:3px;
+  border:1px solid var(--border);
+  color:var(--muted2);background:var(--bg3);
+  transition:all 0.2s;
+}
+.tag.hi{
+  color:var(--blue3);
+  border-color:rgba(59,130,246,0.25);
+  background:rgba(59,130,246,0.06);
+}
+.tag:hover{border-color:var(--border3);color:var(--blue2)}
+
+/* ── PROJECTS ── */
+.projects-wrap{display:grid;gap:18px}
+.proj{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:8px;padding:30px 32px;
+  transition:all 0.3s;
+  position:relative;overflow:hidden;
+}
+.proj::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(59,130,246,0.03) 0%,transparent 60%);
+  pointer-events:none;
+}
+.proj:hover{
+  border-color:var(--border2);
+  transform:translateY(-3px);
+  box-shadow:0 8px 40px rgba(59,130,246,0.12);
+}
+.proj-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:12px}
+.proj-name{font-family:var(--display);font-size:20px;font-weight:700;color:var(--text);letter-spacing:-0.01em}
+.proj-badge{
+  font-family:var(--mono);font-size:10px;letter-spacing:0.08em;
+  padding:3px 12px;border-radius:2px;border:1px solid;
+  white-space:nowrap;flex-shrink:0;margin-top:4px;text-transform:uppercase;
+}
+.badge-blue{color:var(--blue2);border-color:rgba(96,165,250,0.3);background:rgba(59,130,246,0.08)}
+.badge-cyan{color:var(--cyan);border-color:rgba(34,211,238,0.3);background:rgba(34,211,238,0.06)}
+.badge-purple{color:var(--purple);border-color:rgba(167,139,250,0.3);background:rgba(167,139,250,0.06)}
+.proj-desc{color:var(--muted2);font-size:14px;line-height:1.7;margin-bottom:16px;font-weight:300}
+.proj-pts{list-style:none;margin-bottom:20px}
+.proj-pts li{
+  font-size:13px;color:var(--muted2);padding:3px 0 3px 20px;
+  position:relative;
+}
+.proj-pts li::before{
+  content:'▸';position:absolute;left:0;
+  color:var(--blue);font-size:11px;top:5px;
+}
+.proj-pts li strong{color:var(--blue3);font-weight:500}
+.tech-row{display:flex;flex-wrap:wrap;gap:7px}
+.tech{
+  font-family:var(--mono);font-size:10px;
+  padding:3px 9px;border-radius:2px;
+  background:var(--bg4);color:var(--muted);
+  border:1px solid var(--border);
+}
+
+/* ── EDUCATION ── */
+.edu-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:8px;padding:28px 30px;
+  display:grid;grid-template-columns:auto 1fr;gap:20px;
+  align-items:center;margin-bottom:28px;
+  transition:border-color 0.25s;
+  position:relative;overflow:hidden;
+}
+.edu-card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:3px;background:linear-gradient(180deg,var(--blue),var(--cyan));
+  border-radius:0;
+}
+.edu-card:hover{border-color:var(--border2)}
+.edu-icon-box{
+  width:52px;height:52px;border-radius:8px;
+  background:rgba(59,130,246,0.1);
+  border:1px solid rgba(59,130,246,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+}
+.edu-deg{font-family:var(--display);font-size:19px;font-weight:700;margin-bottom:4px}
+.edu-uni{font-size:13px;color:var(--muted2);margin-bottom:8px}
+.edu-meta{font-family:var(--mono);font-size:11px;color:var(--blue);letter-spacing:0.04em}
+
+.certs{display:grid;gap:10px}
+.cert{
+  display:flex;align-items:center;gap:16px;
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:6px;padding:14px 20px;
+  transition:all 0.2s;
+}
+.cert:hover{border-color:var(--border2);background:rgba(59,130,246,0.03)}
+.cert-icon{
+  width:32px;height:32px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:11px;color:var(--blue2);
+  background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);
+  flex-shrink:0;
+}
+.cert-name{font-size:14px;color:var(--text);font-weight:400}
+.cert-sub{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:2px}
+
+/* ── CONTACT ── */
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.contact-card{
+  display:flex;align-items:center;gap:14px;
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:6px;padding:18px 20px;
+  text-decoration:none;color:var(--text);
+  transition:all 0.25s;
+}
+.contact-card:hover{
+  border-color:var(--border3);
+  box-shadow:var(--glow);
+  transform:translateY(-2px);
+}
+.c-icon{
+  width:40px;height:40px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+  background:rgba(59,130,246,0.1);
+  border:1px solid rgba(59,130,246,0.2);
+  color:var(--blue2);
+}
+.c-label{font-family:var(--mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em}
+.c-value{font-size:13px;color:var(--text);margin-top:2px;word-break:break-all}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);
+  padding:36px 0;text-align:center;
+}
+.footer-inner{
+  font-family:var(--mono);font-size:12px;color:var(--muted);
+  display:flex;align-items:center;justify-content:center;gap:16px;
+}
+.footer-inner span{color:var(--blue2)}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.hero>*{animation:fadeUp 0.65s ease both}
+.hero>*:nth-child(1){animation-delay:0.05s}
+.hero>*:nth-child(2){animation-delay:0.15s}
+.hero>*:nth-child(3){animation-delay:0.22s}
+.hero>*:nth-child(4){animation-delay:0.3s}
+.hero>*:nth-child(5){animation-delay:0.4s}
+.hero>*:nth-child(6){animation-delay:0.5s}
+
+/* ── TERMINAL CURSOR ── */
+.cursor{
+  display:inline-block;width:10px;height:1.1em;
+  background:var(--blue2);margin-left:4px;
+  vertical-align:text-bottom;
+  animation:blink-caret 1s step-end infinite;
+}
+
+@media(max-width:620px){
+  h1{font-size:40px}
+  .stats-row{flex-direction:column}
+  .stat-box{border-right:none;border-bottom:1px solid var(--border)}
+  .stat-box:last-child{border-bottom:none}
+  .edu-card{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+<div class="circuit-overlay"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="wrap">
+    <div class="nav-logo">muskan@portfolio:~$</div>
+    <ul class="nav-links">
+      <li><a href="#skills">skills</a></li>
+      <li><a href="#projects">projects</a></li>
+      <li><a href="#education">education</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="wrap">
+  <div class="hero">
+    <div class="hero-eyebrow"><span class="dot"></span>open to internships — 2026</div>
+    <h1>
+      <span class="name-first">Muskan</span>
+      <span class="name-last">Ejaz</span>
+    </h1>
+    <div class="hero-role">CS Student · AI · Full-Stack · Algorithms</div>
+    <p class="hero-desc">
+      Computer Science student at NUST building things that actually work —
+      from 87%-accurate dysarthria detection models to graph backends
+      handling 10,000+ nodes. Seeking a software engineering internship for 2026.
+    </p>
+    <div class="hero-actions">
+      <a href="mailto:mejaz.bscs24seecs@seecs.edu.pk" class="btn btn-primary">✉ &nbsp;get in touch</a>
+      <a href="https://github.com/MuskanEjaz" target="_blank" class="btn btn-outline">⌥ &nbsp;github</a>
+      <a href="https://linkedin.com/in/MuskanEjaz" target="_blank" class="btn btn-outline">↗ &nbsp;linkedin</a>
+    </div>
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-num">5</div>
+        <div class="stat-label">projects</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">87%</div>
+        <div class="stat-label">AI accuracy</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">50+</div>
+        <div class="stat-label">real users</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">3.01</div>
+        <div class="stat-label">CGPA / 4.0</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<div id="skills">
+  <div class="wrap">
+    <section>
+      <div class="sec-header">
+        <div class="sec-num">01 &nbsp;toolkit</div>
+        <div class="sec-title">Technical skills</div>
+      </div>
+      <div class="skills-wrap">
+        <div class="skill-block">
+          <div class="skill-cat">languages</div>
+          <div class="tags">
+            <span class="tag hi">Python</span>
+            <span class="tag hi">C++</span>
+            <span class="tag hi">JavaScript</span>
+            <span class="tag">Java</span>
+            <span class="tag">SQL / PL/SQL</span>
+            <span class="tag">HTML / CSS</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <div class="skill-cat">web &amp; backend</div>
+          <div class="tags">
+            <span class="tag hi">React.js</span>
+            <span class="tag hi">Node.js</span>
+            <span class="tag hi">Express.js</span>
+            <span class="tag">MongoDB</span>
+            <span class="tag">PostgreSQL</span>
+            <span class="tag">REST APIs</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <div class="skill-cat">AI / ML</div>
+          <div class="tags">
+            <span class="tag hi">Scikit-learn</span>
+            <span class="tag hi">PyTorch</span>
+            <span class="tag">Librosa</span>
+            <span class="tag">NumPy</span>
+            <span class="tag">Pandas</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <div class="skill-cat">cloud &amp; tools</div>
+          <div class="tags">
+            <span class="tag hi">Azure IAM</span>
+            <span class="tag hi">Git / GitHub</span>
+            <span class="tag">VS Code</span>
+            <span class="tag">CI/CD</span>
+            <span class="tag">Oracle DB</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<div id="projects">
+  <div class="wrap">
+    <section>
+      <div class="sec-header">
+        <div class="sec-num">02 &nbsp;work</div>
+        <div class="sec-title">Projects</div>
+      </div>
+      <div class="projects-wrap">
+
+        <div class="proj">
+          <div class="proj-top">
+            <div class="proj-name">Detecting Dysarthria</div>
+            <span class="proj-badge badge-blue">AI / ML</span>
+          </div>
+          <p class="proj-desc">Speech classification model identifying dysarthric speech patterns from audio features — trained on the UASpeech dataset using machine learning.</p>
+          <ul class="proj-pts">
+            <li>Achieved <strong>87% classification accuracy</strong> across 150+ voice samples</li>
+            <li>Reduced feature extraction time by <strong>30%</strong> via optimised Librosa pipeline</li>
+          </ul>
+          <div class="tech-row">
+            <span class="tech">Python</span><span class="tech">Librosa</span><span class="tech">Scikit-learn</span><span class="tech">UASpeech dataset</span>
+          </div>
+        </div>
+
+        <div class="proj">
+          <div class="proj-top">
+            <div class="proj-name">Campus Opportunity Aggregator</div>
+            <span class="proj-badge badge-cyan">Full-Stack</span>
+          </div>
+          <p class="proj-desc">Admin dashboard for managing student opportunities with live analytics, personalised recommendations, and expiry alerts.</p>
+          <ul class="proj-pts">
+            <li>Oracle <strong>PL/SQL</strong> layer with stored procedures, triggers, and views for real-time analytics</li>
+            <li>React.js + Node.js/Express REST API with <strong>interest-based recommendation engine</strong></li>
+          </ul>
+          <div class="tech-row">
+            <span class="tech">React.js</span><span class="tech">Node.js</span><span class="tech">Express</span><span class="tech">Oracle PL/SQL</span>
+          </div>
+        </div>
+
+        <div class="proj">
+          <div class="proj-top">
+            <div class="proj-name">Social Graph Explorer</div>
+            <span class="proj-badge badge-purple">Algorithms</span>
+          </div>
+          <p class="proj-desc">High-performance social network backend simulation demonstrating classic graph algorithms on large-scale data in C++.</p>
+          <ul class="proj-pts">
+            <li>BFS, DFS, Dijkstra managing <strong>10,000+ user nodes</strong> with adjacency lists</li>
+            <li>Reduced friend recommendation latency by <strong>40%</strong> — processing 500+ requests/sec</li>
+          </ul>
+          <div class="tech-row">
+            <span class="tech">C++</span><span class="tech">Graph Algorithms</span><span class="tech">Adjacency Lists</span><span class="tech">BFS/DFS</span>
+          </div>
+        </div>
+
+        <div class="proj">
+          <div class="proj-top">
+            <div class="proj-name">Quantum-Safe Disk Encryption</div>
+            <span class="proj-badge badge-blue">Security</span>
+          </div>
+          <p class="proj-desc">Hybrid encryption demo combining AES-256 with a Kyber-style KEM for post-quantum key protection, fully documented for educational use.</p>
+          <ul class="proj-pts">
+            <li>Encrypted and decrypted <strong>1 MB+ test files</strong> with full key recovery in under 100 ms</li>
+            <li>Designed secure <strong>post-quantum key exchange</strong> architecture with complete docs</li>
+          </ul>
+          <div class="tech-row">
+            <span class="tech">AES-256</span><span class="tech">Kyber KEM</span><span class="tech">Post-Quantum</span><span class="tech">Cryptography</span>
+          </div>
+        </div>
+
+        <div class="proj">
+          <div class="proj-top">
+            <div class="proj-name">Skill Trader App</div>
+            <span class="proj-badge badge-cyan">Full-Stack</span>
+          </div>
+          <p class="proj-desc">Money-free service exchange platform where users barter skills instead of cash — built with a complete auth system and category filtering.</p>
+          <ul class="proj-pts">
+            <li>Search &amp; filter across <strong>20+ skill categories</strong> with JWT user authentication</li>
+            <li>MongoDB backend managing <strong>10+ concurrent test accounts</strong></li>
+          </ul>
+          <div class="tech-row">
+            <span class="tech">Node.js</span><span class="tech">Express</span><span class="tech">MongoDB</span><span class="tech">JWT Auth</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- EDUCATION -->
+<div id="education">
+  <div class="wrap">
+    <section>
+      <div class="sec-header">
+        <div class="sec-num">03 &nbsp;background</div>
+        <div class="sec-title">Education &amp; certifications</div>
+      </div>
+
+      <div class="edu-card">
+        <div class="edu-icon-box">🎓</div>
+        <div>
+          <div class="edu-deg">Bachelor of Computer Science</div>
+          <div class="edu-uni">National University of Sciences &amp; Technology (NUST) — Islamabad</div>
+          <div class="edu-meta">CGPA 3.01 / 4.0 &nbsp;·&nbsp; Nov 2024 – Present</div>
+        </div>
+      </div>
+
+      <div class="certs">
+        <div class="cert">
+          <div class="cert-icon">AI</div>
+          <div>
+            <div class="cert-name">Agentic AI Workshop</div>
+            <div class="cert-sub">AI agent architectures &amp; LLM integration</div>
+          </div>
+        </div>
+        <div class="cert">
+          <div class="cert-icon">☁</div>
+          <div>
+            <div class="cert-name">From Code to Cloud</div>
+            <div class="cert-sub">Cloud deployment &amp; CI/CD fundamentals</div>
+          </div>
+        </div>
+        <div class="cert">
+          <div class="cert-icon">AZ</div>
+          <div>
+            <div class="cert-name">SC-300 Labs — Azure Identity &amp; Access Management</div>
+            <div class="cert-sub">Hands-on Microsoft Azure IAM labs</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact">
+  <div class="wrap">
+    <section>
+      <div class="sec-header">
+        <div class="sec-num">04 &nbsp;reach out</div>
+        <div class="sec-title">Contact</div>
+      </div>
+      <div class="contact-grid">
+        <a href="mailto:mejaz.bscs24seecs@seecs.edu.pk" class="contact-card">
+          <div class="c-icon">✉</div>
+          <div>
+            <div class="c-label">email</div>
+            <div class="c-value" style="font-size:11px;">mejaz.bscs24seecs@seecs.edu.pk</div>
+          </div>
+        </a>
+        <a href="tel:+923295087589" class="contact-card">
+          <div class="c-icon">☎</div>
+          <div>
+            <div class="c-label">phone</div>
+            <div class="c-value">+92 329 508-7589</div>
+          </div>
+        </a>
+        <a href="https://github.com/MuskanEjaz" target="_blank" class="contact-card">
+          <div class="c-icon" style="font-family:var(--mono);font-size:13px;">git</div>
+          <div>
+            <div class="c-label">github</div>
+            <div class="c-value">Muskan Ejaz</div>
+          </div>
+        </a>
+        <a href="https://linkedin.com/in/MuskanEjaz" target="_blank" class="contact-card">
+          <div class="c-icon">in</div>
+          <div>
+            <div class="c-label">linkedin</div>
+            <div class="c-value">Muskan Ejaz</div>
+          </div>
+        </a>
+      </div>
+    </section>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <span>Muskan Ejaz</span>
+      <span style="color:var(--border2)">·</span>
+      <span style="color:var(--muted)">Islamabad, Pakistan</span>
+      <span style="color:var(--border2)">·</span>
+      <span style="color:var(--muted)">2026</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [], mouse = {x: -999, y: -999};
+
+const SNIPPETS = [
+  'def classify(x):','import torch','const fetch = async','graph.BFS()','O(log n)',
+  'SELECT * FROM','AES-256','<div className=','npm install','git commit -m',
+  'for node in graph:','return accuracy','export default','useState([])',
+  'border-radius:','vector<int>','#include<bits>','model.fit(X,y)',
+  '0x4F3A','while(q.size())','async/await','POST /api/skills',
+  'kyber.keygen()','adjacency_list','plt.show()','Schema.Types',
+];
+
+function resize(){
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+
+function spawnParticle(){
+  return{
+    x: Math.random()*W,
+    y: Math.random()*H,
+    vx: (Math.random()-0.5)*0.3,
+    vy: -Math.random()*0.4-0.1,
+    alpha: Math.random()*0.25+0.05,
+    size: Math.random()*3+1,
+    text: SNIPPETS[Math.floor(Math.random()*SNIPPETS.length)],
+    isText: Math.random()>0.55,
+    life: 1,
+    decay: Math.random()*0.0015+0.0005,
+    color: Math.random()>0.5 ? '#3b82f6' : (Math.random()>0.5 ? '#22d3ee' : '#a78bfa'),
+  }
+}
+
+function init(){
+  resize();
+  particles = Array.from({length:120}, spawnParticle);
+}
+
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  particles.forEach((p,i)=>{
+    p.x += p.vx; p.y += p.vy;
+    p.life -= p.decay;
+    if(p.life<=0 || p.y<-40){
+      particles[i] = spawnParticle();
+      particles[i].y = H+10;
+      particles[i].life = 1;
+      return;
+    }
+    const a = p.alpha * p.life;
+    ctx.globalAlpha = a;
+    if(p.isText){
+      ctx.fillStyle = p.color;
+      ctx.font = `${10+p.size}px 'Space Mono',monospace`;
+      ctx.fillText(p.text, p.x, p.y);
+    } else {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size*0.8, 0, Math.PI*2);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+    }
+  });
+  ctx.globalAlpha = 1;
+
+  // draw faint connections
+  ctx.lineWidth = 0.4;
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx*dx+dy*dy);
+      if(dist<100){
+        ctx.globalAlpha = (1-dist/100)*0.06;
+        ctx.strokeStyle='#3b82f6';
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+  ctx.globalAlpha=1;
+  requestAnimationFrame(draw);
+}
+
+window.addEventListener('resize', resize);
+init();
+draw();
+</script>
+</body>
+</html>
